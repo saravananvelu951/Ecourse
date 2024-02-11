@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cart %}
+
+{% block title %}
+Home
+{% endblock title %}
+{% block body %}
+<div class="shadow-lg bg-body rounded mb-0">
+        <img title="Full stack Developer"
+                src="https://infinitegraphixads.com/wp-content/uploads/2020/11/Full-Stack-Developer-Course.png"
+                width="100%%" height="500">
+</div>
+
+<style>
+
+</style>
+<div class="container-md p-4 px-5  text-capitalize">
+        <h3>
+                Trusted by over 15,000 companies and millions of learners around the world
+        </h3>
+        <div class="container-md d-md-flex  pt-3 " id="logo">
+                <img class="container-md pt-2 px-2" title="Samsung"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/samsung.svg" alt="Samsung logo" width="101"
+                        height="70" loading="lazy">
+                <img class="container-md pt-2 px-2" title="wind"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/volkswagen.svg" alt="Volkswagen logo"
+                        width="100" height="70" loading="lazy">
+                <img class="container-md pt-2 px-2" title="Cisco"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/cisco.svg" alt="Cisco logo" width="100"
+                        height="70" loading="lazy">
+                <img class="container-md pt-2 px-2" title="at&t"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/att.svg" alt="ATT&amp;T logo" width="97"
+                        height="70" loading="lazy">
+                <img class="container-md pt-2 px-2" title="p&g"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/procter_gamble.svg"
+                        alt="Procter &amp; Gamble logo" width="100" height="70" loading="lazy">
+                <img class="container-md pt-2 px-2" title="Ericsson"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/ericsson.svg" alt="Ericsson logo" width="55"
+                        height="50" loading="lazy">
+                <img class="container-md pt-2 px-2" title="Enterprise"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/hewlett_packard_enterprise.svg"
+                        alt="Hewlett Packard Enterprise logo" width="94" height="50" loading="lazy">
+                <img class="container-md pt-2 px-2" title="citi"
+                        src="https://s.udemycdn.com/partner-logos/ou-v1/citi.svg" alt="Citi logo" width="62" height="50"
+                        loading="lazy">
+
+        </div>
+
+</div>
+<style>
+        #brd {
+                background-color: lightblue;
+
+
+        }
+
+        .exp {
+                text-align: starting;
+                font-size: 20px;
+                padding: 20px;
+                border: 2px solid rgb(141, 139, 139);
+                margin: 10px;
+                
+
+        }
+        #card{
+                margin: 20px;
+                padding: 0px;
+                text-align: center;
+
+        }
+        
+</style>
+<hr>
+<div class=" text-center pt-3 py-2 text-capitalize" id="brd">
+        <h1>A broad selection of courses</h1>
+        <h5>Choose from over 210,000 online video courses with new additions published every month</h5>
+</div>
+<hr>
+
+   <div class="exp ">
+        <h2 class=" container-md text-capitalize">Expand your career opportunities with Python</h2>
+        <pre>
+        Take one of Udemy’s range of Python courses and learn how to code using this incredibly useful language. 
+        Its simple syntax and readability makes Python perfect for Flask, Django, data science, and machine learning.
+        You’ll learn how to build everything from games to sites to apps. Choose from a range of courses that will appeal to...
+              
+          In explore have udey free course video 
+        
+              <a href="{% url "video" %}" onclick ='check()' class="btn btn-dark" title="More">Explore More</a>
+        </pre>
+         <div class="d-flex flex-row mb-3" id="card">
+        {% for course in course_obj|slice:4  %}
+        <div class="card" id="card" style="width: 18rem;">
+                <img title="{{course.course_name}}"src="{{course.course_image.url}}" class="card-img-top" alt="..." width=50 height=200>
+                <div class="card-body" id="cardbody">
+                        <h5 class="card-title text-capitalize">{{course.course_name}}</h5>
+                        <p class="card-text">{{course.course_desc}}</p>
+                        <p class="card-text">Rs.{{course.course_price}}</p>
+                </div>
+                <div class="card-footer text-muted">
+                        {% if course|incart:request.session.cart %}
+                        <div class="row">
+                                <div class="col-2">
+                             <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="text"name="course_id" value="{{course.id}}" hidden>
+                                <input type="text"name="remove" value="{{course.id}}" hidden>
+                                
+                                <input type="submit" value="-" class="btn btn-primary">
+                            </form>
+                                </div>
+                                <div class="col-8">
+                                {{course|cart_quantity:request.session.cart}}
+
+                                </div>
+                                <div class="col-2">
+                                        <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="text"name="course_id" value="{{course.id}}" hidden>
+                                <input type="submit" value="+" class="btn btn-primary">
+                        </form>
+                                </div>
+                        </div>
+                        {% else %}
+                        <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="text"name="course_id" value="{{course.id}}" hidden>
+                                <input type="submit" value="Add to cart" class="btn btn-primary">
+                                
+                        </form>
+                        {% endif %}
+                        </div>
+        </div> 
+        {% endfor %}
+        </div>
+</div>
+
+
+</div>
+
+<!--category 
+<div class="container">
+        {% for cat in category %}
+        <div class="row">
+                <img src="{{cat.category_image.url}}" alt="no image" width=80 height=80>
+                <br>
+                <h3>{{cat.category_name}}</h3>
+        {% endfor %}
+</div>
+-->
+
+<!--course-->
+
+{% if error %}
+<script>
+        window.onload = function(){
+    var button = document.getElementById('log');
+    button.click();
+        }
+</script>
+{% endif %}
+
+{% endblock body %}

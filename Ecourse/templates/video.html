@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}
+Explore more
+{% endblock title %}
+{% block body %}
+<style>
+    .h{
+     text-shadow: 0 0 20px #00fffb, 0 0 40px #0081bc
+    
+    }
+    .scroll{
+            color: rgb(59, 199, 117);
+
+    }
+</style>
+<div class="container">
+    <h2 class="h text-center text-capitalize pt-4">Udey free course and classes</h2>
+    <pre class="p pt-4 text-center ">
+        Certainly! When creating educational videos or eLearning courses, 
+        attention-grabbing headlines are essential to engage learners and set the tone.
+        Here are 8 secrets to create compelling video or course headings:
+    </pre>
+</div>
+<style>
+    #myVideo{
+                display: grid;
+                grid-template-columns: auto auto;
+                gap: 10px;
+                padding: 5px;
+                text-align: center;
+                font-size: 20px;
+               
+
+} 
+.card-title{
+    padding:10px
+}
+ 
+</style>
+<div class="mb-3" id="myVideo">
+                {% for vid in course_video %}
+                <div class="card-title  col-6" style="width: 40rem;">
+                    <video style="width: 40rem;" controls>
+                        <source src="{{vid.video_file.url }}" type="video/mp4" title="video">
+                    </video>
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize fw-bolder" type="title" >{{vid.title}}</h5>
+                        <p class="card-title text-capitalize">{{vid.video_disc}}</p>
+                        <a href="{% url "homepage" %}" class="card-title  btn btn-primary" title="Buy">Add to cart</a>
+                    </div>
+            </div>
+            {% endfor %}
+</div>
+{% endblock body %}
